@@ -1,0 +1,11 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subtask {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

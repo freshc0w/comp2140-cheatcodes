@@ -1,0 +1,20 @@
+#app {
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+select {
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+.subtask {
+  display: flex;
+  justify-content: space-between;
+}
