@@ -101,6 +101,27 @@ const renderSubtasks = (parentElement: HTMLElement, subtasks: any[]) => {
   });
 };
 
+const handleSubtaskClick = async (e: MouseEvent) => {
+  e.preventDefault();
+  if (opened) {
+    opened = !opened;
+    showSubTasksLink.textContent = "▶ Show subtasks";
+    document.querySelector(".subtask-container")?.remove();
+    return;
+  }
+
+  showSubTasksLink.textContent = "▼ Hide subtasks";
+  const subtaskContainer = document.createElement("div");
+  document.querySelector("#app")?.appendChild(subtaskContainer);
+  subtaskContainer.textContent = "Loading...";
+  const subtasks = await getSubtasks();
+  subtaskContainer.textContent = "";
+  subtaskContainer.classList.add("subtask-container");
+
+  renderSubtasks(subtaskContainer, subtasks);
+  opened = !opened;
+};
+
 let opened = false;
 
 const main = async () => {
@@ -110,26 +131,6 @@ const main = async () => {
   issueTitle.textContent = issues.title;
   statusSelect.value = issues.status;
 
-  showSubTasksLink.addEventListener("click", async (e) => {
-    console.log(opened);
-    e.preventDefault();
-    if (opened) {
-      opened = !opened;
-      showSubTasksLink.textContent = "▶ Show subtasks";
-      console.log(document.querySelector(".subtask-container"));
-      document.querySelector(".subtask-container")?.remove();
-      return;
-    }
-
-    showSubTasksLink.textContent = "▼ Hide subtasks";
-    const subtaskContainer = document.createElement("div");
-    document.querySelector("#app")?.appendChild(subtaskContainer);
-    subtaskContainer.textContent = 'Loading...'
-    const subtasks = await getSubtasks();
-    subtaskContainer.textContent = '';
-    subtaskContainer.classList.add("subtask-container");
-    renderSubtasks(subtaskContainer, subtasks);
-    opened = !opened;
-  });
+  showSubTasksLink.addEventListener("click", handleSubtaskClick);
 };
 main();

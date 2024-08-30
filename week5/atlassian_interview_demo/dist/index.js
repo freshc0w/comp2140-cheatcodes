@@ -88,32 +88,31 @@ const renderSubtasks = (parentElement, subtasks) => {
         parentElement.appendChild(subtaskElement);
     });
 };
+const handleSubtaskClick = (e) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    e.preventDefault();
+    if (opened) {
+        opened = !opened;
+        showSubTasksLink.textContent = "▶ Show subtasks";
+        (_a = document.querySelector(".subtask-container")) === null || _a === void 0 ? void 0 : _a.remove();
+        return;
+    }
+    showSubTasksLink.textContent = "▼ Hide subtasks";
+    const subtaskContainer = document.createElement("div");
+    (_b = document.querySelector("#app")) === null || _b === void 0 ? void 0 : _b.appendChild(subtaskContainer);
+    subtaskContainer.textContent = "Loading...";
+    const subtasks = yield (0, exports.getSubtasks)();
+    subtaskContainer.textContent = "";
+    subtaskContainer.classList.add("subtask-container");
+    renderSubtasks(subtaskContainer, subtasks);
+    opened = !opened;
+});
 let opened = false;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const issues = yield FetchUtils.oneIssue();
     populateOptions(statusSelect, exports.statuses);
     issueTitle.textContent = issues.title;
     statusSelect.value = issues.status;
-    showSubTasksLink.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b;
-        console.log(opened);
-        e.preventDefault();
-        if (opened) {
-            opened = !opened;
-            showSubTasksLink.textContent = "▶ Show subtasks";
-            console.log(document.querySelector(".subtask-container"));
-            (_a = document.querySelector(".subtask-container")) === null || _a === void 0 ? void 0 : _a.remove();
-            return;
-        }
-        showSubTasksLink.textContent = "▼ Hide subtasks";
-        const subtaskContainer = document.createElement("div");
-        (_b = document.querySelector("#app")) === null || _b === void 0 ? void 0 : _b.appendChild(subtaskContainer);
-        subtaskContainer.textContent = 'Loading...';
-        const subtasks = yield (0, exports.getSubtasks)();
-        subtaskContainer.textContent = '';
-        subtaskContainer.classList.add("subtask-container");
-        renderSubtasks(subtaskContainer, subtasks);
-        opened = !opened;
-    }));
+    showSubTasksLink.addEventListener("click", handleSubtaskClick);
 });
 main();
