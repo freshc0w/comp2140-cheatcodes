@@ -1,0 +1,13 @@
+/**
+ * This util file contains functions for converting LangChain messages to Anthropic messages.
+ */
+import { BaseMessage } from "@langchain/core/messages";
+import { ToolCall } from "@langchain/core/messages/tool";
+import { AnthropicMessageCreateParams, AnthropicToolResponse } from "../types.js";
+export declare function _convertLangChainToolCallToAnthropic(toolCall: ToolCall): AnthropicToolResponse;
+/**
+ * Formats messages as a prompt for the model.
+ * @param messages The base messages to format as a prompt.
+ * @returns The formatted prompt.
+ */
+export declare function _formatMessagesForAnthropic(messages: BaseMessage[]): AnthropicMessageCreateParams;
